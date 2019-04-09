@@ -4,7 +4,7 @@ mkdir -p logs
 
 timesToRun=10
 
-iterations=10000
+iterations=1000
 
 # 18c
 db='//192.168.1.93/orcl.jks.com'

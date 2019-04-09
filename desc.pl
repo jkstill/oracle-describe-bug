@@ -84,9 +84,7 @@ getOpHash('libcacheGets',$dbh,\%libcacheGetsBegin);
 getOpHash('libcachePins',$dbh,\%libcachePinsBegin);
 getOpHash('rowcache',$dbh,\%rowcacheBegin);
 
-my $sql=q{select user from dual};
-
-#my $sth = $dbh->prepare($sql,{ora_check_sql => $describe});
+my $sql=q{select c256 from describe_bug};
 
 for ( my $i=0; $i < $iterations; $i++ ) {
 
@@ -94,9 +92,11 @@ for ( my $i=0; $i < $iterations; $i++ ) {
 	$sth->execute;
 
 	while( my $ary = $sth->fetchrow_arrayref ) {
-		#print "\t\t$${ary[0]}\n";
 		#print "\t\t$ary->[0]\n";
 	}
+
+	undef $sth;
+
 }
 
 
