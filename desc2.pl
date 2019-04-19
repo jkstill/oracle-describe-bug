@@ -31,7 +31,7 @@ my $password='';
 my $describe=0;
 my $sysdba=0;
 my $sysoper=0;
-my $iterations=10000;
+my $iterations=1000;
 
 Getopt::Long::GetOptions(
 	\%optctl, 
@@ -84,21 +84,26 @@ getOpHash('libcacheGets',$dbh,\%libcacheGetsBegin);
 getOpHash('libcachePins',$dbh,\%libcachePinsBegin);
 getOpHash('rowcache',$dbh,\%rowcacheBegin);
 
-my $sql=q{select c256 from describe_bug};
+#my $sql=q{select c256 from describe_bug};
+my $sql=q{insert into describe_bug(c256) values('testing') returning c256 into :p_retval};
+
+my $p_retval='NA';
 
 for ( my $i=0; $i < $iterations; $i++ ) {
 
 	my $sth = $dbh->prepare($sql,{ora_check_sql => $describe});
+	$sth->bind_param_inout(":p_retval", \$p_retval,0);
 	$sth->execute;
 
-	while( my $ary = $sth->fetchrow_arrayref ) {
+	#while( my $ary = $sth->fetchrow_arrayref ) {
 		#print "\t\t$ary->[0]\n";
-	}
+		#}
 
 	undef $sth;
 
 }
 
+$dbh->rollback;
 
 getOpHash('libcacheGets',$dbh,\%libcacheGetsEnd);
 getOpHash('libcachePins',$dbh,\%libcachePinsEnd);

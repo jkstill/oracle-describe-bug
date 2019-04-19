@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+
+pScript='./desc2.pl'
+
 mkdir -p logs
 
 timesToRun=10
@@ -17,7 +20,8 @@ echo >> $logfile
 
 for i in $(seq 1 $timesToRun)
 do
-	{ time ./desc.pl  --describe --database $db --iterations $iterations ;}  2>&1
+	./flush.sh $db
+	{ time $pScript  --describe --database $db --iterations $iterations ;}  2>&1
 	echo
 done >> $logfile
 
@@ -29,7 +33,8 @@ echo >> $logfile
 
 for i in $(seq 1 $timesToRun)
 do
-	{ time ./desc.pl  --no-describe --database $db --iterations $iterations ;}  2>&1
+	./flush.sh $db
+	{ time $pScript  --no-describe --database $db --iterations $iterations ;}  2>&1
 	echo
 done >> $logfile
 
@@ -44,7 +49,8 @@ echo >> $logfile
 
 for i in $(seq 1 $timesToRun)
 do
-	{ time ./desc.pl  --describe --database $db --iterations $iterations ;}  2>&1
+	./flush.sh $db
+	{ time $pScript  --describe --database $db --iterations $iterations ;}  2>&1
 	echo
 done >> $logfile
 
@@ -56,7 +62,8 @@ echo >> $logfile
 
 for i in $(seq 1 $timesToRun)
 do
-	{ time ./desc.pl  --no-describe --database $db --iterations $iterations ;}  2>&1
+	./flush.sh $db
+	{ time $pScript  --no-describe --database $db --iterations $iterations ;}  2>&1
 	echo
 done >> $logfile
 
